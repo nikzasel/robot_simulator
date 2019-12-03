@@ -1,3 +1,4 @@
 .vscode/
 .mypy_cache/
-vrep/RemoteOasis/__pycache__
+*.pyc
+pyrightconfig.json
