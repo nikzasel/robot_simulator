@@ -23,6 +23,10 @@ if clientID != -1:
     un = vrep.simxGetIntegerSignal(clientID, "nt", vrep.simx_opmode_oneshot_wait)
     print(un[1])
 
+    vrep.simxSetIntegerSignal(clientID, "nt", 13, vrep.simx_opmode_oneshot_wait)
+    un = vrep.simxGetIntegerSignal(clientID, "nt", vrep.simx_opmode_oneshot_wait)
+    print(un[1])
+
     vrep.simxFinish(clientID)
 else:
     print("Failed connecting to remote API server")
