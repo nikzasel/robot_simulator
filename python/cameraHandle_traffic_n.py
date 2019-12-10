@@ -1,4 +1,4 @@
-import vrep
+from utility.vrep import vrep
 import time
 import numpy as np
 from skimage import draw, measure, data, color
@@ -25,7 +25,7 @@ if clientID!=-1:
             imgS = color.rgb2hsv(img)[...,1]
             red = (imgH<0.15) & (imgS>0.5)
             green = (imgH>0.2) & (imgH<0.4) & (imgS>0.5)
-            
+
             redSignal = measure.label(red)
             redSignal = measure.regionprops(redSignal)
             if len(redSignal)!=0:
