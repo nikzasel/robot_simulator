@@ -1,4 +1,4 @@
-import vrep
+from utility.vrep import vrep
 import time
 import numpy as np
 from skimage import draw, measure, data, color
@@ -9,6 +9,7 @@ vrep.simxFinish(-1)
 clientID=vrep.simxStart('127.0.0.1',19997,True,True,5000,5)
 if clientID!=-1:
     print ('Connected to remote API server')
+    vrep.simxStartSimulation(clientID,vrep.simx_opmode_oneshot)
     error, camera = vrep.simxGetObjectHandle(clientID, 'v0', vrep.simx_opmode_oneshot_wait)
     error, car = vrep.simxGetObjectHandle(clientID, 'nakedAckermannSteeringCar', vrep.simx_opmode_oneshot_wait)
     error, motor_left = vrep.simxGetObjectHandle(clientID, 'nakedCar_motorLeft', vrep.simx_opmode_oneshot_wait)
@@ -16,7 +17,8 @@ if clientID!=-1:
     error, resolution, image = vrep.simxGetVisionSensorImage(clientID, camera, 0,vrep.simx_opmode_streaming)
 
     time.sleep(0.1)
-    while (vrep.simxGetConnectionId(clientID) != -1):
+    error, info = vrep.simxGetInMessageInfo(clientID, vrep.simx_headeroffset_server_state)
+    while (info != 0):
         error, resolution, image = vrep.simxGetVisionSensorImage(clientID, camera, 0,vrep.simx_opmode_buffer)
         if error == vrep.simx_return_ok:
             img = np.array(image, dtype=np.uint8)
