@@ -1,9 +1,10 @@
+#Импорт библиотек
 import time
 import numpy as np
-import matplotlib.pyplot as plt
-import vrep
+import matplotlib.pyplot as plt #Библиотека визуализации графики
+import vrep #Библиотека виртуальной среды
 import random
-from skimage import color, measure, draw
+from skimage import color, measure, draw #Библиотека анализа изображений
 
 print ('Program started')
 vrep.simxFinish(-1)
@@ -33,13 +34,13 @@ if clientID!=-1:
                 img_1.resize([resolution[1], resolution[0],3])
                 img_1 = np.flip(img_1, axis=0) #Отразить полученное изображение по вертикали
 
-                plt.imsave("D:/figs/fig_cam1_{}.png".format(increment), img_1) #Запись в файл
+                plt.imsave("D:/robot_workspace/photos/textured/fig_{}.png".format(increment), img_1) #Запись в файл
 
                 img_2 = np.array(image_2, dtype = np.uint8)
                 img_2.resize([resolution[1], resolution[0],3])
                 img_2 = np.flip(img_2, axis=0)
 
-                plt.imsave("D:/figs/fig_cam2_{}.png".format(increment), img_2)
+                plt.imsave("D:/robot_workspace/photos/discoloured/fig_{}.png".format(increment), img_2)
 
                 increment += 1
 
