@@ -11,9 +11,9 @@ if clientID!=-1:
     print ('Connected to remote API server')
     vrep.simxStartSimulation(clientID,vrep.simx_opmode_oneshot)
 
-    error, cameraBrick = vrep.simxGetObjectHandle(clientID, 'camBrick', vrep.simx_opmode_oneshot_wait)
+    error, cameraCuboid = vrep.simxGetObjectHandle(clientID, 'camCuboid', vrep.simx_opmode_oneshot_wait)
     error, cameraWhite = vrep.simxGetObjectHandle(clientID, 'camWhite', vrep.simx_opmode_oneshot_wait)
-    error, resolution, imageBrick = vrep.simxGetVisionSensorImage(clientID, cameraBrick, 0,vrep.simx_opmode_streaming)
+    error, resolution, imageCuboid = vrep.simxGetVisionSensorImage(clientID, cameraCuboid, 0,vrep.simx_opmode_streaming)
     error, resolution, imageWhite = vrep.simxGetVisionSensorImage(clientID, cameraWhite, 0,vrep.simx_opmode_streaming)
     time.sleep(0.3)
 
@@ -21,17 +21,17 @@ if clientID!=-1:
         vrep.simxPauseSimulation(clientID, vrep.simx_opmode_oneshot)
         time.sleep(0.5)
 
-        error, resolution, imageBrick = vrep.simxGetVisionSensorImage(clientID, cameraBrick, 0,vrep.simx_opmode_buffer)
+        error, resolution, imageCuboid = vrep.simxGetVisionSensorImage(clientID, cameraCuboid, 0,vrep.simx_opmode_buffer)
         error, resolution, imageWhite = vrep.simxGetVisionSensorImage(clientID, cameraWhite, 0,vrep.simx_opmode_buffer)
 
         if error == vrep.simx_return_ok:
-            imgBrick = np.array(imageBrick, dtype=np.uint8)
+            imgCuboid = np.array(imageCuboid, dtype=np.uint8)
             imgWhite = np.array(imageWhite, dtype=np.uint8)
-            imgBrick.resize([resolution[1],resolution[0],3])
+            imgCuboid.resize([resolution[1],resolution[0],3])
             imgWhite.resize([resolution[1],resolution[0],3])
 
-            plt.imsave('E:/Images/Bricks/brick{}.png'.format(i), imgBrick)
-            plt.imsave('E:/Images/White/white{}.png'.format(i), imgWhite)
+            plt.imsave('E:/Images/X/{}.png'.format(i), imgCuboid)
+            plt.imsave('E:/Images/Y/{}.png'.format(i), imgWhite)
         else:
             print('Error:', error)
 
