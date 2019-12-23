@@ -1,6 +1,6 @@
-import vrep
+from utility.vrep import vrep
 import time
-import numpy as np 
+import numpy as np
 from skimage import color, measure
 import matplotlib.pyplot as plt
 

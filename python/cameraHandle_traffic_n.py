@@ -10,6 +10,7 @@ clientID=vrep.simxStart('127.0.0.1',19997,True,True,5000,5)
 if clientID!=-1:
     print ('Connected to remote API server')
     vrep.simxStartSimulation(clientID,vrep.simx_opmode_oneshot)
+
     error, camera = vrep.simxGetObjectHandle(clientID, 'v0', vrep.simx_opmode_oneshot_wait)
     error, car = vrep.simxGetObjectHandle(clientID, 'nakedAckermannSteeringCar', vrep.simx_opmode_oneshot_wait)
     error, motor_left = vrep.simxGetObjectHandle(clientID, 'nakedCar_motorLeft', vrep.simx_opmode_oneshot_wait)
@@ -17,8 +18,10 @@ if clientID!=-1:
     error, resolution, image = vrep.simxGetVisionSensorImage(clientID, camera, 0,vrep.simx_opmode_streaming)
 
     time.sleep(0.1)
+
     error, info = vrep.simxGetInMessageInfo(clientID, vrep.simx_headeroffset_server_state)
     while (info != 0):
+
         error, resolution, image = vrep.simxGetVisionSensorImage(clientID, camera, 0,vrep.simx_opmode_buffer)
         if error == vrep.simx_return_ok:
             img = np.array(image, dtype=np.uint8)
@@ -27,7 +30,7 @@ if clientID!=-1:
             imgS = color.rgb2hsv(img)[...,1]
             red = (imgH<0.15) & (imgS>0.5)
             green = (imgH>0.2) & (imgH<0.4) & (imgS>0.5)
-            
+
             redSignal = measure.label(red)
             redSignal = measure.regionprops(redSignal)
             if len(redSignal)!=0:
